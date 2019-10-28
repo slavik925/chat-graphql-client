@@ -1,0 +1,63 @@
+import React from 'react';
+import { RouteComponentProps } from "react-router-dom";
+import { useQuery, useSubscription } from '@apollo/react-hooks';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import { CreateMessage } from "./CreateMessage";
+
+import {
+  GET_CHANNEL,
+  MESSAGE_ADDED_SUBSCRIPTION
+} from '../GQLQuery';
+
+type TParams = {
+  channelId: string;
+}
+
+interface IMessage {
+  content: string;
+  user: {
+    username: string;
+  }
+  createdAt: number;
+}
+
+export const Messages: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
+
+  const { loading, error, data } = useQuery(GET_CHANNEL, {
+    variables: {
+      id: match.params.channelId
+    }
+  });
+
+  const subscription = useSubscription(
+    MESSAGE_ADDED_SUBSCRIPTION,
+    { variables: { channelId: match.params.channelId } }
+  );
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  const messages: IMessage[] = data.channel.messages;
+
+  if (subscription.data && subscription.data.messageAdded) {
+    messages.push(subscription.data.messageAdded);
+  }
+
+  return (
+    <div>
+      <List>
+        {
+          messages.map(({ content, user, createdAt }, index) => (
+            <ListItem key={'list_' + createdAt + index}>
+              <ListItemText primary={content} secondary={`${user.username} at ${new Date(createdAt * 1000)}`} />
+            </ListItem>
+          ))
+        }
+      </List>
+      <CreateMessage channelId={match.params.channelId} />
+    </div>
+  )
+};
