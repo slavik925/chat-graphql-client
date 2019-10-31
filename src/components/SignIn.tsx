@@ -97,13 +97,13 @@ export const SignIn = () => {
             fullWidth
             type="submit"
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.submit}
           >
             Login
           </Button>
-          <Link component={RouterLink} to="/register" variant="body2">
-            {"Don't have an account? Register"}
+          <Link component={RouterLink} to="/register" variant="body2" style={{display: "block"}}>
+            {"Don't have an account? Register!"}
           </Link>
         </form>
       </div>

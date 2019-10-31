@@ -1,24 +1,37 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { SignIn } from './components/SignIn';
-import { SignUp } from './components/SignUp';
 import { Channels } from './components/Channels';
-
-import { useStyles } from './styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MainPage } from './pages/MainPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 import {
   CURRENT_USER
 } from './GQLQuery';
 
+const theme = createMuiTheme({
+  typography: {
+    fontSize: 14,
+  },
+  palette: {
+    secondary: {
+      main: '#E13D5C',
+    }
+  },
+  overrides: {
+    MuiInputBase: {
+      input: {
+        background: "#fff",
+      }
+    }
+  },
+});
+
 const CurrentUserContext = React.createContext(null);
 
 const App = () => {
   const { data, loading, error } = useQuery(CURRENT_USER);
-  const classes = useStyles();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -26,27 +39,21 @@ const App = () => {
   const currentUser = (data && data.currentUser) || null;
 
   return (
-    <div className={classes.root}>
-      <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUser}>
+      <MuiThemeProvider theme={theme}>
         <Router>
-          <AppBar position="static">
-            <Toolbar variant="dense">
-              <Typography variant="h6" className={classes.title}>
-                Chatoslav
-              </Typography>
-              {currentUser && <Link to="/channels">Channels</Link>}
-              {currentUser && <em>{currentUser.username}</em>}
-            </Toolbar>
-          </AppBar>
-          <Route path="/register" component={SignUp} />
-          <Route path="/login" component={SignIn} />
-          <Route path="/channels" component={Channels} />
-          {
-            !currentUser && <Redirect to="/login" />
-          }
+          <Route path="/" exact component={MainPage} />
+          <Route path="/login" component={MainPage} />
+          <Route path="/register" component={RegisterPage} />
+
+          {/* {
+        {currentUser && <Link to="/channels">Channels</Link>}
+        {currentUser && <em>{currentUser.username}</em>}
+        <Route path="/channels" component={Channels} />
+       */}
         </Router>
-      </CurrentUserContext.Provider>
-    </div>
+      </MuiThemeProvider>
+    </CurrentUserContext.Provider>
   );
 }
 
