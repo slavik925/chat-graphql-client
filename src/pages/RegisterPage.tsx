@@ -32,6 +32,10 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'center',
     flexDirection: 'column',
     display: 'flex'
+  },
+  subtitleText: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   }
 }));
 
@@ -41,7 +45,7 @@ export const RegisterPage = withRouter((props) => {
 
   return (
     <BasicLayout>
-      <div style={{ height: '100%'}}>
+      <div style={{ height: '100%' }}>
         <div className={classes.wrapper}>
           <header className={classes.header}>
             <Typography variant="h4" className={classes.headerText}>
@@ -53,11 +57,11 @@ export const RegisterPage = withRouter((props) => {
               Welcome back!
             </Typography>
 
-            <Typography variant="subtitle1">
+            <Typography variant="subtitle1" className={classes.subtitleText}>
               To keep connected with us please sign in with your personal info.
             </Typography>
 
-            <Button onClick={() => props.history.push('/')} variant="outlined">
+            <Button onClick={() => props.history.push('/')} variant="outlined" color="secondary" style={{color: '#FFF'}}>
               Sign In
             </Button>
           </div>

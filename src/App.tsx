@@ -16,13 +16,13 @@ const theme = createMuiTheme({
   },
   palette: {
     secondary: {
-      main: '#E13D5C',
+      main: '#E13D5C'
     }
   },
   overrides: {
     MuiInputBase: {
       input: {
-        background: "#fff",
+        background: "#fff"
       }
     }
   },

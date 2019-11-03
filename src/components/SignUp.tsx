@@ -84,7 +84,7 @@ export const SignUp = () => {
             fullWidth
             type="submit"
             variant="contained"
-            color="primary"
+            color="secondary"
           >
             Register
         </Button>
