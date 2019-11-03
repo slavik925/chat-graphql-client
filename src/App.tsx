@@ -5,6 +5,7 @@ import { Channels } from './components/Channels';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MainPage } from './pages/MainPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ChatPage } from './pages/ChatPage';
 
 import {
   CURRENT_USER
@@ -28,7 +29,7 @@ const theme = createMuiTheme({
   },
 });
 
-const CurrentUserContext = React.createContext(null);
+export const CurrentUserContext = React.createContext<{ username: string } | null>(null);
 
 const App = () => {
   const { data, loading, error } = useQuery(CURRENT_USER);
@@ -42,15 +43,18 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <MuiThemeProvider theme={theme}>
         <Router>
-          <Route path="/" exact component={MainPage} />
-          <Route path="/login" component={MainPage} />
-          <Route path="/register" component={RegisterPage} />
-
-          {/* {
-        {currentUser && <Link to="/channels">Channels</Link>}
-        {currentUser && <em>{currentUser.username}</em>}
-        <Route path="/channels" component={Channels} />
-       */}
+          {
+            !currentUser && <Route path="/" exact component={MainPage} />
+          }
+          {
+            !currentUser && <Route path="/login" component={MainPage} />
+          }
+          {
+            !currentUser && <Route path="/register" component={RegisterPage} />
+          }
+          {
+            currentUser && <Route path="/" exact component={ChatPage} />
+          }
         </Router>
       </MuiThemeProvider>
     </CurrentUserContext.Provider>
