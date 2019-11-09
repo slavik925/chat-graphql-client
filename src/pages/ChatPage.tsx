@@ -8,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { CurrentUserContext } from '../App'
 import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const drawerWidth = 260;
 
@@ -16,7 +18,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    backgroundColor: '#48435B',
+    border: 'none'
   },
   appBar: {
     marginLeft: drawerWidth,
@@ -31,9 +35,22 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
     ...theme.mixins.toolbar,
   },
+  toolBar: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  logoutIcon: {
+    alignSelf: 'flex-end'
+  },
   userNameText: {
     color: 'white'
-  }
+  },
+  fabAdd: {
+    position: 'absolute',
+    bottom: '2rem',
+    right: '2rem'
+  },
 }));
 
 export const ChatPage: React.FC = () => {
@@ -45,9 +62,17 @@ export const ChatPage: React.FC = () => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute" className={classes.appBar}>
-        <Toolbar>
-          <IconButton color="inherit">
-            <ExitToAppIcon />
+        <Toolbar className={classes.toolBar}>
+          <IconButton
+            edge="start"
+            aria-label="logout"
+            color="secondary"
+            className={classes.logoutIcon}
+          >
+            <ExitToAppIcon onClick={() => {
+              console.log("Logout");
+            }}
+            />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -61,6 +86,13 @@ export const ChatPage: React.FC = () => {
         <div className={classes.titleApp}>
           {currentUser && <Typography variant="h5" className={classes.userNameText}>{currentUser.username}</Typography>}
         </div>
+        <Fab
+          color="secondary"
+          className={classes.fabAdd}
+          aria-label="Add"
+        >
+          <AddIcon />
+        </Fab>
       </Drawer>
       <main>
         Content

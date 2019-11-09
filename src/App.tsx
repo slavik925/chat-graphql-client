@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { Channels } from './components/Channels';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MainPage } from './pages/MainPage';
 import { RegisterPage } from './pages/RegisterPage';
