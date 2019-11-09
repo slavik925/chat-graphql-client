@@ -40,7 +40,7 @@ export const SignIn = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  useMutation(LOGIN_MUTATION, {
+  const [login, { data }] = useMutation(LOGIN_MUTATION, {
     update(cache, { data: { login } }) {
       cache.writeQuery({
         query: CURRENT_USER,
