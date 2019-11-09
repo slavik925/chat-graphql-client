@@ -32,7 +32,7 @@ const theme = createMuiTheme({
 export const CurrentUserContext = React.createContext<{ username: string } | null>(null);
 
 const App = () => {
-  const { data, loading, error } = useQuery(CURRENT_USER);
+  const { data, loading, error } = useQuery(CURRENT_USER, { fetchPolicy: "network-only" });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -43,17 +43,12 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <MuiThemeProvider theme={theme}>
         <Router>
-          {
-            !currentUser && <Route path="/" exact component={MainPage} />
-          }
+          <Route path="/" exact component={!currentUser ? MainPage : ChatPage} />
           {
             !currentUser && <Route path="/login" component={MainPage} />
           }
           {
             !currentUser && <Route path="/register" component={RegisterPage} />
-          }
-          {
-            currentUser && <Route path="/" exact component={ChatPage} />
           }
         </Router>
       </MuiThemeProvider>

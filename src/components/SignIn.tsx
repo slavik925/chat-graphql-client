@@ -40,20 +40,20 @@ export const SignIn = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const [login, { data }] = useMutation(LOGIN_MUTATION, {
+  useMutation(LOGIN_MUTATION, {
     update(cache, { data: { login } }) {
       cache.writeQuery({
         query: CURRENT_USER,
         data: { currentUser: login.user }
       });
+
+      if (login) {
+        localStorage.setItem('token', login.token)
+    
+        return <Redirect to='/' />
+      }
     }
   });
-
-  if (data) {
-    window.localStorage.setItem('token', data.login.token)
-
-    return <Redirect to='/' />
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -102,7 +102,7 @@ export const SignIn = () => {
           >
             Login
           </Button>
-          <Link component={RouterLink} to="/register" variant="body2" style={{display: "block"}}>
+          <Link component={RouterLink} to="/register" variant="body2" style={{ display: "block" }}>
             {"Don't have an account? Register!"}
           </Link>
         </form>
