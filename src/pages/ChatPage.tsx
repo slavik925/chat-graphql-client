@@ -14,6 +14,8 @@ import { CreateChannelForm } from '../components/CreateChannelForm';
 import { Route, Link as RouterLink } from "react-router-dom";
 import { useApolloClient } from "@apollo/react-hooks";
 import Container from '@material-ui/core/Container';
+import { Channels } from '../components/Channels';
+import { Messages } from '../components/Messages';
 
 const drawerWidth = 260;
 
@@ -48,7 +50,8 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'flex-end'
   },
   userNameText: {
-    color: 'white'
+    color: 'white',
+    textDecoration: 'none'
   },
   fabAdd: {
     position: 'absolute',
@@ -100,8 +103,13 @@ export const ChatPage: React.FC = () => {
         }}
       >
         <div className={classes.titleApp}>
-          {currentUser && <Typography variant="h5" className={classes.userNameText}>{currentUser.username}</Typography>}
+          {currentUser &&
+            <RouterLink to='/' className={classes.userNameText}>
+              <Typography variant="h5" >{currentUser.username}</Typography>
+            </RouterLink>
+          }
         </div>
+        <Channels />
         <Fab
           color="secondary"
           component={RouterLink}
@@ -114,8 +122,9 @@ export const ChatPage: React.FC = () => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container className={classes.container}>
           <Route path="/create-channel" component={CreateChannelForm} />
+          <Route path="/channel/:channelId" component={Messages} />
         </Container>
       </main>
     </div>

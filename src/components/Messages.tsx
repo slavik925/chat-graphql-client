@@ -4,6 +4,7 @@ import { useQuery, useSubscription } from '@apollo/react-hooks';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { CreateMessage } from "./CreateMessage";
 
@@ -24,7 +25,18 @@ interface IMessage {
   createdAt: number;
 }
 
+const useStyles = makeStyles(theme => ({
+  createMessage: {
+    position: 'absolute',
+    bottom: '2em',
+    right: '2em',
+    left: '20em'
+  }
+}));
+
 export const Messages: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
+
+  const classes = useStyles();
 
   const { loading, error, data } = useQuery(GET_CHANNEL, {
     variables: {
@@ -57,7 +69,7 @@ export const Messages: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
           ))
         }
       </List>
-      <CreateMessage channelId={match.params.channelId} />
+      <CreateMessage channelId={match.params.channelId} className={classes.createMessage} />
     </div>
   )
 };
