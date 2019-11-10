@@ -40,7 +40,7 @@ export const SignIn = () => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const [login, { data }] = useMutation(LOGIN_MUTATION, {
+  const [login] = useMutation(LOGIN_MUTATION, {
     update(cache, { data: { login } }) {
       cache.writeQuery({
         query: CURRENT_USER,
@@ -49,7 +49,7 @@ export const SignIn = () => {
 
       if (login) {
         localStorage.setItem('token', login.token)
-    
+
         return <Redirect to='/' />
       }
     }
