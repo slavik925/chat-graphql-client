@@ -10,6 +10,10 @@ import { CurrentUserContext } from '../App'
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { CreateChannelForm } from '../components/CreateChannelForm';
+import { Route, Link as RouterLink } from "react-router-dom";
+import { useApolloClient } from "@apollo/react-hooks";
+import Container from '@material-ui/core/Container';
 
 const drawerWidth = 260;
 
@@ -51,11 +55,22 @@ const useStyles = makeStyles(theme => ({
     bottom: '2rem',
     right: '2rem'
   },
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+    backgroundColor: '#F0F1F5'
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
+  }
 }));
 
 export const ChatPage: React.FC = () => {
   const classes = useStyles();
-
+  const client = useApolloClient();
   const currentUser = useContext<{ username: string } | null>(CurrentUserContext);
 
   return (
@@ -70,7 +85,8 @@ export const ChatPage: React.FC = () => {
             className={classes.logoutIcon}
           >
             <ExitToAppIcon onClick={() => {
-              console.log("Logout");
+              localStorage.removeItem('token');
+              client.resetStore();
             }}
             />
           </IconButton>
@@ -88,15 +104,20 @@ export const ChatPage: React.FC = () => {
         </div>
         <Fab
           color="secondary"
+          component={RouterLink}
           className={classes.fabAdd}
+          to="/create-channel"
           aria-label="Add"
         >
           <AddIcon />
         </Fab>
       </Drawer>
-      <main>
-        Content
-       </main>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Route path="/create-channel" component={CreateChannelForm} />
+        </Container>
+      </main>
     </div>
   );
-}
+};

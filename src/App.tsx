@@ -1,11 +1,10 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MainPage } from './pages/MainPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ChatPage } from './pages/ChatPage';
-
 import {
   CURRENT_USER
 } from './GQLQuery';
@@ -42,7 +41,7 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <MuiThemeProvider theme={theme}>
         <Router>
-          <Route path="/" exact component={!currentUser ? MainPage : ChatPage} />
+          <Route path="/" component={!currentUser ? MainPage : ChatPage} />
           {
             !currentUser && <Route path="/login" component={MainPage} />
           }
