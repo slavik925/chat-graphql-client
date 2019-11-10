@@ -31,6 +31,11 @@ const useStyles = makeStyles(theme => ({
     bottom: '2em',
     right: '2em',
     left: '20em'
+  },
+  message: {
+    backgroundColor: '#B1AAC4',
+    borderRadius: '.5rem',
+    marginBottom: '1rem'
   }
 }));
 
@@ -63,8 +68,8 @@ export const Messages: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
       <List>
         {
           messages.map(({ content, user, createdAt }, index) => (
-            <ListItem key={'list_' + createdAt + index}>
-              <ListItemText primary={content} secondary={`${user.username} at ${new Date(createdAt * 1000)}`} />
+            <ListItem key={'list_' + createdAt + index} className={classes.message}>
+              <ListItemText primary={content} secondary={`${user.username} at ${new Date(createdAt * 1000).toLocaleDateString()}`} />
             </ListItem>
           ))
         }
