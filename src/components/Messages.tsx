@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { CreateMessage } from "./CreateMessage";
+import Typography from '@material-ui/core/Typography';
 
 import {
   GET_CHANNEL,
@@ -36,6 +37,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#B1AAC4',
     borderRadius: '.5rem',
     marginBottom: '1rem'
+  },
+  channelHeader: {
+    position: 'absolute',
+    top: '.8rem',
+    right: '10rem',
+    zIndex: 2000,
+    color: '#8A7EB1'
   }
 }));
 
@@ -65,6 +73,9 @@ export const Messages: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
 
   return (
     <div>
+      <Typography variant="h4" className={classes.channelHeader}>
+        {data.channel.name}
+      </Typography>
       <List>
         {
           messages.map(({ content, user, createdAt }, index) => (

@@ -95,31 +95,33 @@ export const ChatPage: React.FC = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="persistent"
-        open={true}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.titleApp}>
-          {currentUser &&
-            <RouterLink to='/' className={classes.userNameText}>
-              <Typography variant="h5" >{currentUser.username}</Typography>
-            </RouterLink>
-          }
-        </div>
-        <Channels />
-        <Fab
-          color="secondary"
-          component={RouterLink}
-          className={classes.fabAdd}
-          to="/create-channel"
-          aria-label="Add"
+      <nav style={{ width: drawerWidth }}>
+        <Drawer
+          variant="persistent"
+          open={true}
+          classes={{
+            paper: classes.drawerPaper
+          }}
         >
-          <AddIcon />
-        </Fab>
-      </Drawer>
+          <div className={classes.titleApp}>
+            {currentUser &&
+              <RouterLink to='/' className={classes.userNameText}>
+                <Typography variant="h5" >{currentUser.username}</Typography>
+              </RouterLink>
+            }
+          </div>
+          <Channels />
+          <Fab
+            color="secondary"
+            component={RouterLink}
+            className={classes.fabAdd}
+            to="/create-channel"
+            aria-label="Add"
+          >
+            <AddIcon />
+          </Fab>
+        </Drawer>
+      </nav>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.container}>

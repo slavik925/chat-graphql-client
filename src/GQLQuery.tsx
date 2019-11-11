@@ -53,6 +53,7 @@ export const CHANNELS_QUERY = gql`
 export const GET_CHANNEL = gql`
   query GetChannel($id: ID!) {
     channel(id: $id) {
+      name
       messages {
         content
         createdAt
