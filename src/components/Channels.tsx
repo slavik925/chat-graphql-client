@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import clsx from "clsx";
 
 import {
   CHANNELS_QUERY,
@@ -21,6 +22,12 @@ const useStyles = makeStyles(theme => ({
   channelName: {
     color: '#8A7EB1',
     fontWeight: 'normal'
+  },
+  selectedChannelText: {
+    color: '#FFF'
+  },
+  selectedChannelAvatar: {
+    backgroundColor: '#F0F1F5'
   }
 }));
 
@@ -38,9 +45,17 @@ export const Channels: React.FC = () => {
         data &&
         data.channels.map(({ id, name }: { id: string, name: string }) => (
           <ListItem button component={Link} to={`/channel/${id}`}>
-            <Avatar className={classes.avatar}>{name[0]}</Avatar>
+            <Avatar
+              className={clsx(classes.avatar, window.location.pathname.indexOf(id) !== -1 && classes.selectedChannelAvatar)}>
+              {name[0]}
+            </Avatar>
             <ListItemText primary={
-              <Typography variant="h5" className={classes.channelName}>{name}</Typography>
+              <Typography
+                variant="h5"
+                className={clsx(classes.channelName, window.location.pathname.indexOf(id) !== -1 && classes.selectedChannelText)}
+              >
+                {name}
+              </Typography>
             } />
           </ListItem>
         ))
