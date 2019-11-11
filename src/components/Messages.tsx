@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-
+import moment from 'moment';
 import { CreateMessage } from "./CreateMessage";
 
 import {
@@ -69,7 +69,7 @@ export const Messages: React.FC<RouteComponentProps<TParams>> = ({ match }) => {
         {
           messages.map(({ content, user, createdAt }, index) => (
             <ListItem key={'list_' + createdAt + index} className={classes.message}>
-              <ListItemText primary={content} secondary={`${user.username} at ${new Date(createdAt * 1000).toLocaleDateString()}`} />
+              <ListItemText primary={content} secondary={`${user.username} ${moment(createdAt).calendar()}`} />
             </ListItem>
           ))
         }
